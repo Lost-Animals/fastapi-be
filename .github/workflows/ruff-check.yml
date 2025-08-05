@@ -8,7 +8,6 @@ on:
 jobs:
   ruff-lint:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -16,35 +15,10 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.13'
 
       - name: Install Ruff
         run: pip install ruff
 
-      - name: Run Ruff check and save output
-        id: ruff
-        run: |
-          set -o pipefail
-          ruff check . | tee ruff_output.txt
-        continue-on-error: true
-
-      - name: Upload Ruff output as artifact (optional)
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: ruff-output
-          path: ruff_output.txt
-
-      - name: Comment on PR if Ruff fails
-        if: failure()
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const output = fs.readFileSync('ruff_output.txt', 'utf8');
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `:x: **Ruff check failed!**\n\n\`\`\`\n${output.substring(0, 6500)}\n\`\`\`\n_Only showing first 6500 characters_`
-            });
+      - name: Run Ruff check
+        run: ruff check .
