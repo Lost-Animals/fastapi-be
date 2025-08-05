@@ -1,3 +1,5 @@
+from google.cloud.exceptions import NotFound
+
 from db import db
 from schemas.animal_schemas import Animal, AnimalData
 
@@ -18,6 +20,29 @@ async def select_animal_by_id(id: str) -> Animal:
     doc = await doc_ref.get()
     animal_dict = doc.to_dict()
     if not animal_dict:
-        pass
+        raise NotFound("No animal found with that id!")
 
     return Animal(id=doc.id, **animal_dict)
+
+
+async def update_animal(animal_id: str, data: AnimalData) -> Animal:
+    doc_ref = animals_ref.document(animal_id)
+    doc = await doc_ref.get()
+
+    if not doc.exists:
+        raise NotFound("No animal found with that id!")
+
+    updated_data = data.model_dump()
+    await doc_ref.update(updated_data)
+
+    return Animal(id=animal_id, **updated_data)
+
+
+async def delete_animal(animal_id: str) -> None:
+    doc_ref = animals_ref.document(animal_id)
+    doc = await doc_ref.get()
+
+    if not doc.exists:
+        raise NotFound("No animal found with that id!")
+
+    await doc_ref.delete()
