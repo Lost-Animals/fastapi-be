@@ -1,9 +1,13 @@
 name: PR to Main Branch Warning
 
 on:
-  pull_request:
+  pull_request_target:
     branches:
       - main
+
+permissions:
+  issues: write
+  pull-requests: write
 
 jobs:
   check-pr-source:
