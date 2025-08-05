@@ -45,7 +45,7 @@ You can build and run the project using Docker:
 
 ```bash
 docker buildx build -t lost-be .
-docker run --name lostbe01 -d -p 8000:8000 lost-be
+docker run --name lostbe01 -d -p 8000:8080 lost-be
 ```
 
 ---
