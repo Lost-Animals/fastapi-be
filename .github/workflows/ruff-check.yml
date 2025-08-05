@@ -15,7 +15,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.13'
+          python-version: '3.11' 
 
       - name: Install Ruff
         run: pip install ruff
@@ -23,7 +23,7 @@ jobs:
       - name: Run Ruff check
         id: ruff
         run: |
-          ruff check . > ruff_output.txt
+          ruff check . | tee ruff_output.txt
           if [ $? -ne 0 ]; then
             echo "failed=true" >> $GITHUB_OUTPUT
           else
@@ -41,5 +41,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: `:x: Ruff check failed!\n\n\`\`\`\n${output}\n\`\`\``
+              body: `:x: **Ruff check failed!**\n\n\`\`\`\n${output.substring(0, 6500)}\n\`\`\`\n_Only showing first 6500 characters_`
             });
