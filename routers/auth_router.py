@@ -46,9 +46,7 @@ async def google_callback(request: Request):
 
 
 @router.get("/refresh", tags=["Refresh tokens"])
-async def refresh_tokens(
-    user_id: str = Depends(get_current_user_id)
-):
+async def refresh_tokens(user_id: str = Depends(get_current_user_id)):
     user = await select_user_by_id(user_id)
     access_token = create_access_token(user)
     refresh_token = create_refresh_token(user)

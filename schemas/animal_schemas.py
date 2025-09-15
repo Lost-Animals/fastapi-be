@@ -27,3 +27,4 @@ class AnimalData(BaseAnimal):
 
 class Animal(BaseAnimal):
     id: str
+    user_id: str
