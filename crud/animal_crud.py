@@ -7,8 +7,9 @@ from schemas.animal_schemas import Animal, AnimalData
 animals_ref = db.collection("animals")
 
 
-async def insert_animal(data: AnimalData) -> Animal:
+async def insert_animal(data: AnimalData, user_id: str) -> Animal:
     animal_data_dict = data.model_dump()
+    animal_data_dict["user_id"] = user_id
     new_animal_ref = animals_ref.document()
     await new_animal_ref.set(animal_data_dict)
     new_animal = Animal(id=new_animal_ref.id, **animal_data_dict)

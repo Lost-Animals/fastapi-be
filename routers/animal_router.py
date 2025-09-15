@@ -1,4 +1,4 @@
-from fastapi import APIRouter, status, HTTPException
+from fastapi import APIRouter, status, HTTPException, Depends
 from google.cloud.exceptions import NotFound
 
 from schemas.animal_schemas import Animal, AnimalData
@@ -8,14 +8,15 @@ from crud.animal_crud import (
     update_animal,
     delete_animal,
 )
+from auth.token import get_current_user_id
 
 
 router = APIRouter(prefix="/animals", tags=["Animals"])
 
 
 @router.post("/", response_model=Animal, status_code=status.HTTP_201_CREATED)
-async def post_animal(data: AnimalData):
-    animal = await insert_animal(data)
+async def post_animal(data: AnimalData, user_id: str = Depends(get_current_user_id)):
+    animal = await insert_animal(data, user_id)
     return animal
 
 

@@ -20,7 +20,7 @@ async def insert_user(data: UserCreate) -> User:
 async def select_user_by_email(email: str) -> Optional[User]:
     query = users_ref.where("email", "==", email).limit(1)
     docs = [doc async for doc in query.stream()]
-    
+
     if not docs:
         return None
 
