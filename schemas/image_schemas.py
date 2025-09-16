@@ -4,6 +4,7 @@ from pydantic import BaseModel
 class StorageImageCreate(BaseModel):
     base64_data: str
 
+
 class StorageImage(BaseModel):
     name: str
     url: str
