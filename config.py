@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 SA_KEY_PATH = os.environ.get("SA_KEY_PATH")
-BUCKET_NAME = os.environ["BUCKET_NAME"]
 DATABASE_NAME = os.environ["DATABASE_NAME"]
 JWT_KEY = os.environ["JWT_KEY"]
 
@@ -16,3 +15,5 @@ GOOGLE_CALLBACK_URL = os.environ.get(
 )
 
 IS_DEV = bool(os.environ.get("IS_DEV", False))
+
+STORAGE_SERVICE_URL = os.environ["STORAGE_SERVICE_URL"]
