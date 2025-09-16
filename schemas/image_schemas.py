@@ -1,8 +1,22 @@
 from pydantic import BaseModel
 
 
-class ImageCreate(BaseModel):
+class StorageImageCreate(BaseModel):
+    base64_data: str
+
+class StorageImage(BaseModel):
     name: str
+    url: str
+
+
+class DbImageCreate(BaseModel):
+    name: str
+    animal_id: str
+
+
+class DbImage(BaseModel):
+    name: str
+    id: str
     animal_id: str
 
 
@@ -11,12 +25,8 @@ class ImageRequest(BaseModel):
     animal_id: str
 
 
-class AnimalImage(BaseModel):
-    name: str
+class ImageResp(BaseModel):
     id: str
-    animal_id: str
-
-
-class Image(BaseModel):
     name: str
     url: str
+    animal_id: str
